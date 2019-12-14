@@ -1,24 +1,93 @@
-include irvine32.inc 
-
+Include Irvine32.inc
 .data
-    var1 byte 1,2,3,4,5
-    sum byte ?
-
+array dword 5 Dup(?)
+array1 dword 5 Dup(?)
+arraysum dword 5 Dup(?)
+msg byte "Enter a value",0ah,0dh
 .code
-    main proc
-        xor eax, eax
-        mov esi, offset var1
-        mov ecx, sizeof var1
 
-        L1:
-            add al, [esi]
-            inc esi
-            loop L1
+input proc
+mov edx, OFFset msg
+mov eax,0
+mov ecx,5
+mov esi,0
 
-        call writedec
+l1:
+call writestring
+call readint
+mov array[esi],eax
+add esi,4
+loop l1
+ret
+input endp
 
-    call dumpregs
 
-    exit
-    main endp
-    end main
+
+
+input1 proc
+mov edx, OFFset msg
+mov eax,0
+mov ecx,5
+mov esi,0
+
+l1:
+call writestring
+call readint
+mov array1[esi],eax
+add esi,4
+loop l1
+ret
+
+input1 endp
+
+
+
+
+
+sum proc
+
+mov ecx,5
+
+laa:
+
+mov eax,[esi]
+mov ebx,[edi]
+add eax,ebx
+call writedec
+mov arraysum,eax
+add arraysum,4
+call crlf
+add esi,4
+add edi,4
+
+loop laa
+
+ret
+sum endp
+
+
+
+
+Main proc
+
+call input
+
+call crlf
+
+call input1
+
+
+xor eax,eax
+xor ebx,ebx
+
+mov esi,offset array
+mov edi,offset array1
+
+call sum
+call crlf
+
+
+
+exit 
+Main endp
+end main
