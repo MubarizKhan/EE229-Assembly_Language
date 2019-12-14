@@ -5,14 +5,20 @@ include irvine32.inc
     
 
 .code
-    push esi		; push registers
+main proc
+
+call dumpregs
+push esi		; push registers
 push ecx
 push ebx
+
+call dumpregs
 
 mov  esi,OFFSET dwordVal 		; display some memory
 mov  ecx,LENGTHOF dwordVal
 mov  ebx,TYPE dwordVal
 call DumpMem
+call dumpregs
 
 pop ebx		; restore registers
 pop ecx
